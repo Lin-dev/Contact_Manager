@@ -43,6 +43,12 @@
       </p>
     </script>
 
+    <script type="text/template" id="contact-list-item">
+      <p>
+        <li><%= firstName %> <%= lastName %></li>
+      </p>
+    </script>
+
     <script src="./assets/javascripts/lib/jquery.js"></script>
     <script src="./assets/javascripts/lib/bootstrap.min.js"></script>
     <script src="./assets/javascripts/lib/json2.js"></script>
@@ -52,30 +58,17 @@
     <script type="text/javascript">
       var ContactManager = new Marionette.Application();
 
-      // ContactManager.StaticView = Marionette.ItemView.extend({
-      //   el: "#main-region",
-      //   template: "#different-static-template"
-      // }); 3/28/16 - displaying static views
+      ContactManager.Contact = Backbone.Model.extend({
+        defaults: {
+          firstName: "",
+          lastName: "",
+          phoneNumber: "No phone number"
+        }
+      });
 
-
-      // ContactManager.on("start", function(){
-      //   var staticView = new ContactManager.StaticView();
-      //   staticView.render();
-      // }); 3/28/16 - displaying static views
-
-      // ContactManager.Contact = Backbone.Model.extend({
-      //   defaults: {
-      //     firstName: ""
-      //   }
-      // }); -- this code demostrates how to add default values to a
-      //        model upon instantiation
-
-
-      ContactManager.Contact = Backbone.Model.extend({});
-
-      // ContactManager.StaticView = Marionette.ItemView.extend({
-      //   template: "#static-template"
-      // });
+      ContactManager.ContactCollection = Backbone.Collection.extend({
+        model: ContactManager.Contact
+      });
 
       ContactManager.ContactView = Marionette.ItemView.extend({
         template: "#contact-template",
@@ -90,6 +83,15 @@
 
       });
 
+      ContactManager.ContactItemView = Marionette.ItemView.extend({
+        template: "#contact-list-item"
+      });
+
+      ContactManager.ContactsView = Marionette.CollectionView.extend({
+        tagName: "ul",
+        childView: ContactManager.ContactItemView
+      });
+
       ContactManager.on("before:start", function(){
         var RegionContainer = Marionette.LayoutView.extend({
           el: "app-container",
@@ -102,23 +104,30 @@
         ContactManager.regions = new RegionContainer();
       });
 
-      // ContactManager.on("start", function(){
-      //   var staticView = new ContactManager.StaticView();
-      //   ContactManager.regions.main.show(staticView);
-      // });
-
       ContactManager.on("start", function(){
-        var alice = new ContactManager.Contact({
-          firstName: "Alice",
-          lastName: "Cooper",
-          phoneNumber: "555-718-4310"
+        var contacts = new ContactManager.ContactCollection([
+          {
+            firstName: "Alice",
+            lastName: "Cooper",
+            phoneNumber: "718-546-3421"
+          },
+          {
+            firstName: "Future",
+            lastName: "Hendrix",
+            phoneNumber: "718-522-3678"
+          },
+          {
+            firstName: "Bryson",
+            lastName: "Tiller",
+            phoneNumber: "404-598-2341"
+          }
+        ]);
+
+        var contactsListView = new ContactManager.ContactsView({
+          collection: contacts
         });
 
-        var aliceView = new ContactManager.ContactView({
-          model: alice
-        });
-
-        ContactManager.regions.main.show(aliceView)
+        ContactManager.regions.main.show(contactsListView)
       });
 
       ContactManager.start();
