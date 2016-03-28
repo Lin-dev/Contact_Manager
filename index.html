@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>MyContact Manager</title>
+    <link href="./assets/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./assets/stylesheets/application.css">
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <span class="brand">MyContacts</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <p>
+        Here is static content in the web page. You'll notice that it gets
+        replaced by our app as soon as we start it.
+      </p>
+    </div>
+
+    <script src="./assets/javascripts/lib/jquery.js"></script>
+    <script src="./assets/javascripts/lib/bootstrap.min.js"></script>
+    <script src="./assets/javascripts/lib/json2.js"></script>
+    <script src="./assets/javascripts/lib/underscore.js"></script>
+    <script src="./assets/javascripts/lib/backbone.js"></script>
+    <script src="./assets/javascripts/lib/backbone.marionette.js"></script>
+    <script type="text/javascript">
+      var ContactManager = new Marionette.Application();
+
+      ContactManager.on("initialize:after", function(){
+        console.log("Contact manager has started");
+      });
+
+      ContactManager.start();
+    </script>
+  </body>
+</html>
