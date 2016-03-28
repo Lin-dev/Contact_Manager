@@ -31,6 +31,12 @@
       </p>
     </script>
 
+    <script type="text/template" id="contact-template">
+      <p>
+        <%= firstName %> <%= lastName %>
+      </p>
+    </script>
+
     <script type="text/template" id="different-static-template">
       <p>
         Text from a different template
@@ -51,19 +57,57 @@
       //   template: "#different-static-template"
       // }); 3/28/16 - displaying static views
 
-      var RegionCantainer = Marionette.LayoutView.extend({
-        el: "app-container",
-
-        regions: {
-          main: "#main-region"
-        }
-
-      });
 
       // ContactManager.on("start", function(){
       //   var staticView = new ContactManager.StaticView();
       //   staticView.render();
       // }); 3/28/16 - displaying static views
+
+      // ContactManager.Contact = Backbone.Model.extend({
+      //   defaults: {
+      //     firstName: ""
+      //   }
+      // }); -- this code demostrates how to add default values to a
+      //        model upon instantiation
+
+      // ContactManager.StaticView = Marionette.ItemView.extend({
+      //   template: "#static-template"
+      // });
+
+      ContactManager.ContactView = Marionette.ItemView.extend({
+        template: "#contact-template"
+      });
+
+      ContactManager.on("before:start", function(){
+        var RegionContainer = Marionette.LayoutView.extend({
+          el: "app-container",
+
+          regions: {
+            main: "#main-region"
+          }
+        });
+
+        ContactManager.regions = new RegionContainer();
+      });
+
+      // ContactManager.on("start", function(){
+      //   var staticView = new ContactManager.StaticView();
+      //   ContactManager.regions.main.show(staticView);
+      // });
+
+      ContactManager.on("start", function(){
+        var alice = new ContactManager.Contact({
+          firstName: "Alice",
+          lastName: "Cooper",
+          phoneNumber: "555-718-4310"
+        });
+
+        var aliceView = new ContactManager.ContactView({
+          model: alice
+        });
+
+        ContactManager.regions.main.show(aliceView)
+      });
 
       ContactManager.start();
     </script>
