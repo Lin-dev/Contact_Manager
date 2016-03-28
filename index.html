@@ -46,15 +46,24 @@
     <script type="text/javascript">
       var ContactManager = new Marionette.Application();
 
-      ContactManager.StaticView = Marionette.ItemView.extend({
-        el: "#main-region",
-        template: "#different-static-template"
+      // ContactManager.StaticView = Marionette.ItemView.extend({
+      //   el: "#main-region",
+      //   template: "#different-static-template"
+      // }); 3/28/16 - displaying static views
+
+      var RegionCantainer = Marionette.LayoutView.extend({
+        el: "app-container",
+
+        regions: {
+          main: "#main-region"
+        }
+
       });
 
-      ContactManager.on("start", function(){
-        var staticView = new ContactManager.StaticView();
-        staticView.render();
-      });
+      // ContactManager.on("start", function(){
+      //   var staticView = new ContactManager.StaticView();
+      //   staticView.render();
+      // }); 3/28/16 - displaying static views
 
       ContactManager.start();
     </script>
