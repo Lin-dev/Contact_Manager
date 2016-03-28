@@ -70,12 +70,24 @@
       // }); -- this code demostrates how to add default values to a
       //        model upon instantiation
 
+
+      ContactManager.Contact = Backbone.Model.extend({});
+
       // ContactManager.StaticView = Marionette.ItemView.extend({
       //   template: "#static-template"
       // });
 
       ContactManager.ContactView = Marionette.ItemView.extend({
-        template: "#contact-template"
+        template: "#contact-template",
+
+        events: {
+          "click p": "alertPhoneNumber"
+        },
+
+        alertPhoneNumber: function() {
+          alert(this.model.escape("phoneNumber"));
+        }
+
       });
 
       ContactManager.on("before:start", function(){
