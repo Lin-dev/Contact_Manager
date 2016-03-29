@@ -44,7 +44,7 @@
     </script>
 
     <script type="text/template" id="contact-list-item">
-        <li><%= firstName %> <%= lastName %></li>
+      <%= firstName %> <%= lastName %>
     </script>
 
     <script src="./assets/javascripts/lib/jquery.js"></script>
@@ -65,7 +65,11 @@
       });
 
       ContactManager.ContactCollection = Backbone.Collection.extend({
-        model: ContactManager.Contact
+        model: ContactManager.Contact,
+
+        comparator: function(contact){
+          return contact.get("firstName") + " " + contact.get("lastName");
+        }
       });
 
       ContactManager.ContactView = Marionette.ItemView.extend({
@@ -82,6 +86,7 @@
       });
 
       ContactManager.ContactItemView = Marionette.ItemView.extend({
+        tagName: "li",
         template: "#contact-list-item"
       });
 
@@ -110,6 +115,11 @@
             phoneNumber: "718-546-3421"
           },
           {
+            firstName: "Alice",
+            lastName: "Alderson",
+            phoneNumber: "818-446-3221"
+          },
+          {
             firstName: "Future",
             lastName: "Hendrix",
             phoneNumber: "718-522-3678"
@@ -118,6 +128,18 @@
             firstName: "Bryson",
             lastName: "Tiller",
             phoneNumber: "404-598-2341"
+          },
+          {
+            firstName: "Alice",
+            lastName: "Tampen"
+          },
+          {
+            firstName: "Bob",
+            lastName: "Brigham"
+          },
+          {
+            firstName: "Alice",
+            lastName: "Artsy"
           }
         ]);
 
